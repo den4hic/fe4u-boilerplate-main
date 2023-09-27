@@ -77,8 +77,17 @@ label {
 }
 
 .header-text {
+    transition: 0.5s;
+    font-family: 'CroissantOne', sans-serif;
+    color: white; /* Білий колір тексту */
+    text-shadow: -2px -2px 0 #F79695, 2px 2px 0 black;
+    /*box-shadow: -5px 0 10px rgba(0, 0, 0, 0.3), 5px 0 10px rgba(0, 0, 0, 0.3);*/
     font-size: 45px;
+
     margin: 0;
+}
+.header-text:hover {
+    text-shadow: -3px -3px 0 #F65C4A, 3px 3px 0 black;
 }
 .header-text-div {
     display: flex;
@@ -475,6 +484,26 @@ th:nth-child(5), td:nth-child(5) {
     border: 1px solid #f75c49;
     color: #f75c49;
 }
+.arrow-helper {
+    position: relative;
+    text-align: center; /* Центруємо вміст в контейнері по горизонталі */
+}
+
+.left-image,
+.right-image {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+}
+
+.left-image {
+    left: -65px;
+}
+
+.right-image {
+    right: -65px;
+}
 @media (max-width: 1600px) {
     #name, #city, #email, #phone, #date {
         margin-top: 5px;
@@ -598,6 +627,9 @@ th:nth-child(5), td:nth-child(5) {
         height: 25px;
         margin-bottom: 10px;
     }
+    .navigation-section{
+        grid-template-columns: 2fr 1fr;
+    }
     .textarea {
         height: 40px;
     }
@@ -715,6 +747,12 @@ th:nth-child(5), td:nth-child(5) {
     .header-text {
         font-size: 27px;
     }
+    .left-image{
+        left: -35px;
+    }
+    .right-image {
+        right: -35px;
+    }
 }
 @media (max-width: 760px) {
     .popup-main {
@@ -766,6 +804,13 @@ th:nth-child(5), td:nth-child(5) {
     }
     .section-text {
         font-size: 13px;
+    }
+    .search {
+        width: 100px;
+        font-size: 8px;
+    }
+    .search:hover {
+        width: 100px;
     }
 }
 
@@ -841,9 +886,33 @@ th:nth-child(5), td:nth-child(5) {
         grid-template-columns: 1fr;
         grid-column-gap: 0;
     }
+    .search {
+        width: 50px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .search:hover {
+        width: 50px;
+    }
+    .left-image {
+        left: 0;
+    }
+    .right-image {
+        right: 0;
+    }
 }
-@media (max-width: 320px) {
-
+@media (max-width: 450px) {
+    th, td {
+        font-size: 10px;
+    }
+    .th-name, .td-name {
+        padding-left: 0;
+    }
+}
+@media (max-width: 340px) {
+    .form-div {
+        border-left: none;
+    }
     .popup-country {
         margin-top: 3px;
     }
@@ -898,12 +967,7 @@ th:nth-child(5), td:nth-child(5) {
     .form-form {
         grid-template-columns: 1fr;
     }
-    th, td {
-        font-size: 10px;
-    }
-    .th-name, .td-name {
-        padding-left: 0;
-    }
+
     .search{
         padding-left: 2px;
     }
