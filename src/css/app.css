@@ -359,7 +359,7 @@ th:nth-child(5), td:nth-child(5) {
 .popup-teacher-photo {
     width: 250px;
     height: 250px;
-    margin-left: 20px;
+    margin-right: 5px;
 }
 
 .popup-header-text, .popup-add-teacher-text {
@@ -825,7 +825,6 @@ th:nth-child(5), td:nth-child(5) {
         margin-top: 5px;
     }
     .popup-teacher-photo {
-        margin-left: 10px;
         width: 70px;
         height: 70px;
     }

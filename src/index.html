@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ua">
 
 <head itemscope itemtype="http://schema.org/WebSite">
 
@@ -50,15 +50,15 @@
 
       </div>
       <div class="add-teacher-div">
-         <button class="add-teacher-button" id="add-teacher-button"><b>Add Teacher</b></button>
-         <div class="popup-add-teacher" id="popup-teachers">
+         <button class="add-teacher-button"><b>Add Teacher</b></button>
+         <div class="popup-add-teacher">
             <div class="popup-content-add-teacher">
                <header class="popup-header-add-teacher">
                   <h2 class="popup-add-teacher-text">Add Teacher</h2>
-                  <button id="close-button" class="popup-add-teacher-button">X</button>
+                  <button class="popup-add-teacher-button">X</button>
                </header>
                <main class="popup-main">
-                  <form action="">
+                  <form class="form" action="">
                      <label for="name">Name </label><input id="name" type="text" name="name" placeholder="Enter name" class="input-name">
                      <div class="select-speciality">
                         <p class="label-speciality-text">Speciality</p>
@@ -168,182 +168,7 @@
       </form>
    </div>
    <div class="teachers-div">
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo1.jpg" alt="No data" class="teacher-photo">
-            </div>
-            <div class="popup" id="popup">
-               <div class="popup-content">
-                  <header class="popup-header">
-                     <h2 class="popup-header-text">Teacher info</h2>
-                     <button class="popup-close-button">x</button>
-                  </header>
-                  <main class="popup-main">
-                     <img src="images/photo1.jpg" alt="No data" class="popup-teacher-photo">
-                     <div class="popup-info">
-                        <p class="popup-name">Ihor Tkachuk</p>
-                        <p class="popup-subject"><b>Chemistry</b></p>
-                        <p class="popup-country">Kyiv, Ukraine</p>
-                        <p class="popup-sex">35, Male</p>
-                        <p class="popup-email">ihor_tkachuk@domain.com</p>
-                        <p class="popup-number">+380964993252</p>
-                     </div>
-                  </main>
-                  <footer class="popup-footer">
-                     <p class="popup-footer-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                     </p>
-                     <p class="popup-map-text">toggle map</p>
-                  </footer>
-               </div>
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>Ihor</b></p>
-            <p class="surname"><b>Tkachuk</b></p>
-            <p class="subject">Chemistry</p>
-            <p class="country">Ukraine</p>
-         </div>
-      </div>
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo2.jpg" alt="No data" class="teacher-photo">
-            </div>
-            <div class="popup">
-               <div class="popup-content">
-                  <header class="popup-header">
-                     <h2 class="popup-header-text">Teacher info</h2>
-                     <button class="popup-close-button">x</button>
-                  </header>
-                  <main class="popup-main">
-                     <img src="images/photo2.jpg" alt="No data" class="popup-teacher-photo">
-                     <div class="popup-info">
-                        <p class="popup-name">Pragg Rameshbabu</p>
-                        <p class="popup-subject"><b>Chess</b></p>
-                        <p class="popup-country">India, India</p>
-                        <p class="popup-sex">28, Male</p>
-                        <p class="popup-email">praggRame@domain.com</p>
-                        <p class="popup-number">+380955941252</p>
-                     </div>
-                  </main>
-                  <footer class="popup-footer">
-                     <p class="popup-footer-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                     </p>
-                     <p class="popup-map-text">toggle map</p>
-                  </footer>
-               </div>
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>Pragg</b></p>
-            <p class="surname"><b>Rameshbabu</b></p>
-            <p class="subject">Chess</p>
-            <p class="country">India</p>
-         </div>
-      </div>
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo3.jpg" alt="No data" class="teacher-photo">
-            </div>
-            <div class="popup">
-               <div class="popup-content">
-                  <header class="popup-header">
-                     <h2 class="popup-header-text">Teacher info</h2>
-                     <button class="popup-close-button">x</button>
-                  </header>
-                  <main class="popup-main">
-                     <img src="images/photo3.jpg" alt="No data" class="popup-teacher-photo">
-                     <div class="popup-info">
-                        <p class="popup-name">Floor Jansen</p>
-                        <p class="popup-subject"><b>Vocal</b></p>
-                        <p class="popup-country">Denmark, Denmark</p>
-                        <p class="popup-sex">43, Female</p>
-                        <p class="popup-email">Floor123@domain.com</p>
-                        <p class="popup-number">+380964993252</p>
-                     </div>
-                  </main>
-                  <footer class="popup-footer">
-                     <p class="popup-footer-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                     </p>
-                     <p class="popup-map-text">toggle map</p>
-                  </footer>
-               </div>
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>Floor</b></p>
-            <p class="surname"><b>Jansen</b></p>
-            <p class="subject">Vocal</p>
-            <p class="country">Denmark</p>
-         </div>
-      </div>
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo4.jpg" alt="No data" class="teacher-photo">
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>John</b></p>
-            <p class="surname"><b>Burke</b></p>
-            <p class="subject">Computer Science</p>
-            <p class="country">Belgium</p>
-         </div>
-      </div>
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo5.png" alt="No data" class="teacher-photo">
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>Ari</b></p>
-            <p class="surname"><b>Tang</b></p>
-            <p class="subject">Biology</p>
-            <p class="country">China</p>
-         </div>
-      </div>
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo6.jpg" alt="No data" class="teacher-photo">
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>Rachel</b></p>
-            <p class="surname"><b>Andrew</b></p>
-            <p class="subject">Medicine</p>
-            <p class="country">UK</p>
-         </div>
-      </div>
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo1.jpg" alt="No data" class="teacher-photo">
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>Anna</b></p>
-            <p class="surname"><b>Muzychuk</b></p>
-            <p class="subject">Chess</p>
-            <p class="country">Belarus</p>
-         </div>
-      </div>
-      <div class="teacher-card">
-         <div class="teacher-photo-div">
-            <div class="teacher-photo-scale">
-               <img src="images/photo1.jpg" alt="No data" class="teacher-photo">
-            </div>
-         </div>
-         <div class="teacher-info">
-            <p class="name"><b>Radoslaw</b></p>
-            <p class="surname"><b>Ljuboevic</b></p>
-            <p class="subject">Physics</p>
-            <p class="country">Poland</p>
-         </div>
-      </div>
+
    </div>
    <hr class="separator">
    <div class="stat">
@@ -523,43 +348,95 @@
    </footer>
    <div class="navigation-section">
       <div class="menu-section">
-         <p class="section-text"><b>Teachers</b></p>
-         <p class="section-text"><b>Statistics</b></p>
-         <p class="section-text"><b>Favorites</b></p>
-         <p class="section-text"><b>About</b></p>
+         <div class="section-text-div">
+            <p class="section-text"><b>Teachers</b></p>
+         </div>
+         <div class="section-text-div">
+            <p class="section-text"><b>Statistics</b></p>
+         </div>
+         <div class="section-text-div">
+            <p class="section-text"><b>Favorites</b></p>
+         </div>
+         <div class="section-text-div">
+            <p class="section-text"><b>About</b></p>
+         </div>
+
       </div>
       <div class="add-teacher-div">
-         <button class="add-teacher-button"><b>Add Teacher</b></button>
+         <button class="add-teacher-button" id="add-teacher-button"><b>Add Teacher</b></button>
+         <div class="popup-add-teacher" id="popup-teachers">
+            <div class="popup-content-add-teacher">
+               <header class="popup-header-add-teacher">
+                  <h2 class="popup-add-teacher-text">Add Teacher</h2>
+                  <button id="close-button" class="popup-add-teacher-button">X</button>
+               </header>
+               <main class="popup-main">
+                  <form action="">
+                     <label for="name">Name </label><input id="name" type="text" name="name" placeholder="Enter name" class="input-name">
+                     <div class="select-speciality">
+                        <p class="label-speciality-text">Speciality</p>
+                        <label>
+                           <select class="select-speciality-select">
+                              <option>Mathematics</option>
+                              <option>English</option>
+                              <option>IT</option>
+                           </select>
+                        </label>
+                     </div>
+                     <div class="many-label">
+                        <div class="country-label">
+                           <p class="label-country-text">Country</p>
+                           <label>
+                              <select class="select-country-select">
+                                 <option>Ukraine</option>
+                                 <option>USA</option>
+                                 <option>Canada</option>
+                              </select>
+                           </label>
+                        </div>
+                        <div>
+                           <label for="city">City</label><input id="city" type="text" name="city">
+                        </div>
+
+                        <div>
+                           <label for="email">Email </label><input id="email" type="email" name="email">
+                        </div>
+                        <div>
+                           <label for="phone">Phone </label><input id="phone" type="tel" name="phone">
+                        </div>
+                        <div>
+                           <label for="date">Date of birth </label><input id="date" type="date">
+                        </div>
+                     </div>
+
+
+                     <div class="popup-sex">
+                        <label class="label-sex">Sex</label>
+                        <label style="color: black" class="label-sex-text" for="male">Male</label><input id="male" type="radio" name="gender" value="male" required>
+                        <label style="color: black" class="label-sex-text" for="female">Female</label><input id="female" type="radio" name="gender" value="female" required>
+                     </div>
+
+                     <div class="color-div">
+                        <label for="color">Background color </label><input id="color" type="color">
+                     </div>
+
+
+                     <div class="textarea-div">
+                        <p class="label-notes-text">Notes (optinal)</p>
+                        <label><textarea class="textarea"></textarea></label>
+                     </div>
+                     <label>
+                        <input type="submit" value="Add" class="submit-button">
+                     </label>
+                  </form>
+               </main>
+            </div>
+         </div>
       </div>
    </div>
 </div>
-
-<script type="text/javascript">
-   const popup = document.getElementById('popup');
-   const imageContainer = document.querySelector('.teacher-photo');
-   const closeButton = document.querySelector('.popup-close-button');
-
-   imageContainer.addEventListener('click', function () {
-      popup.style.display = 'flex';
-   });
-
-   closeButton.addEventListener('click', function (event) {
-      popup.style.display = 'none';
-   });
-
-   const openPopupButton = document.getElementById('add-teacher-button');
-   const popupContainer = document.getElementById('popup-teachers');
-   const closePopupButton = document.getElementById('close-button')
-
-   openPopupButton.addEventListener('click', () => {
-      popupContainer.style.display = 'flex';
-   });
-
-   closePopupButton.addEventListener('click', (event) => {
-      popupContainer.style.display = 'none';
-   });
-</script>
+<script type="module" src="../src/js/app.js"></script>
+<!--<script type="module" src="../src/js/FE4U-Lab2-mock.js"></script>-->
 <!--      </div>-->
 </body>
-
 </html>
