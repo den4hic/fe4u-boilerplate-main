@@ -59,14 +59,23 @@
                </header>
                <main class="popup-main">
                   <form class="form" action="">
-                     <label for="name">Name </label><input id="name" type="text" name="name" placeholder="Enter name" class="input-name">
+                     <label for="name">Name </label><input id="name" type="text" name="name" placeholder="Enter name" class="input-name" required>
                      <div class="select-speciality">
                         <p class="label-speciality-text">Speciality</p>
                         <label>
-                           <select class="select-speciality-select">
+                           <select class="select-speciality-option">
                               <option>Mathematics</option>
                               <option>English</option>
-                              <option>IT</option>
+                              <option>Physics</option>
+                              <option>Computer Science</option>
+                              <option>Dancing</option>
+                              <option>Chess</option>
+                              <option>Biology</option>
+                              <option>Chemistry</option>
+                              <option>Law</option>
+                              <option>Art</option>
+                              <option>Medicine</option>
+                              <option>Statistics</option>
                            </select>
                         </label>
                      </div>
@@ -74,7 +83,7 @@
                         <div class="country-label">
                            <p class="label-country-text">Country</p>
                            <label>
-                              <select class="select-country-select">
+                              <select class="select-country-option">
                                  <option>Ukraine</option>
                                  <option>USA</option>
                                  <option>Canada</option>
@@ -82,17 +91,17 @@
                            </label>
                         </div>
                         <div>
-                           <label for="city">City</label><input id="city" type="text" name="city">
+                           <label for="city">City</label><input id="city" type="text" name="city" required>
                         </div>
 
                         <div>
-                           <label for="email">Email </label><input id="email" type="email" name="email">
+                           <label for="email">Email </label><input id="email" type="email" name="email" required>
                         </div>
                         <div>
-                           <label for="phone">Phone </label><input id="phone" type="tel" name="phone">
+                           <label for="phone">Phone </label><input id="phone" type="tel" name="phone" required>
                         </div>
                         <div>
-                           <label for="date">Date of birth </label><input id="date" type="date">
+                           <label for="date">Date of birth </label><input id="date" type="date" name="date" required>
                         </div>
                      </div>
 
@@ -104,7 +113,7 @@
                      </div>
 
                      <div class="color-div">
-                        <label for="color">Background color </label><input id="color" type="color">
+                        <label for="color">Background color </label><input id="color" type="color" name="color">
                      </div>
 
 
@@ -143,7 +152,6 @@
             <option value="Asia">Asia</option>
             <option value="Pacific">Pacific</option>
             <option value="Americas">Americas</option>
-            <option value="Africa">Africa</option>
          </select>
          </div>
          <div class="form-div">
@@ -371,12 +379,12 @@
                   <button id="close-button" class="popup-add-teacher-button">X</button>
                </header>
                <main class="popup-main">
-                  <form action="">
-                     <label for="name">Name </label><input id="name" type="text" name="name" placeholder="Enter name" class="input-name">
+                  <form class="form" action="">
+                     <label for="name1">Name </label><input id="name1" type="text" name="name" placeholder="Enter name" class="input-name" required>
                      <div class="select-speciality">
                         <p class="label-speciality-text">Speciality</p>
                         <label>
-                           <select class="select-speciality-select">
+                           <select class="select-speciality-option">
                               <option>Mathematics</option>
                               <option>English</option>
                               <option>IT</option>
@@ -387,7 +395,7 @@
                         <div class="country-label">
                            <p class="label-country-text">Country</p>
                            <label>
-                              <select class="select-country-select">
+                              <select class="select-country-option">
                                  <option>Ukraine</option>
                                  <option>USA</option>
                                  <option>Canada</option>
@@ -395,29 +403,29 @@
                            </label>
                         </div>
                         <div>
-                           <label for="city">City</label><input id="city" type="text" name="city">
+                           <label for="city1">City</label><input id="city1" type="text" name="city" required>
                         </div>
 
                         <div>
-                           <label for="email">Email </label><input id="email" type="email" name="email">
+                           <label for="email1">Email </label><input id="email1" type="email" name="email" required>
                         </div>
                         <div>
-                           <label for="phone">Phone </label><input id="phone" type="tel" name="phone">
+                           <label for="phone1">Phone </label><input id="phone1" type="tel" name="phone" required>
                         </div>
                         <div>
-                           <label for="date">Date of birth </label><input id="date" type="date">
+                           <label for="date1">Date of birth </label><input id="date1" type="date" required>
                         </div>
                      </div>
 
 
                      <div class="popup-sex">
                         <label class="label-sex">Sex</label>
-                        <label style="color: black" class="label-sex-text" for="male">Male</label><input id="male" type="radio" name="gender" value="male" required>
-                        <label style="color: black" class="label-sex-text" for="female">Female</label><input id="female" type="radio" name="gender" value="female" required>
+                        <label style="color: black" class="label-sex-text" for="male1">Male</label><input id="male1" type="radio" name="gender" value="male" required>
+                        <label style="color: black" class="label-sex-text" for="female1">Female</label><input id="female1" type="radio" name="gender" value="female" required>
                      </div>
 
                      <div class="color-div">
-                        <label for="color">Background color </label><input id="color" type="color">
+                        <label for="color1">Background color </label><input id="color1" type="color">
                      </div>
 
 
@@ -440,3 +448,11 @@
 <!--      </div>-->
 </body>
 </html>
+<script>
+   function togglePopupVisibility(popup) {
+      popup.style.display = "flex";
+   }
+   function closePopup(popup){
+      popup.style.display = "none";
+   }
+</script>

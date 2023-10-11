@@ -14,6 +14,13 @@ const courses = [
   'Medicine',
   'Statistics',
 ];
+const regions = {
+  Asia: ["Iran", "Turkey"],
+  Europe: ["Germany", "Ireland", "Netherlands", "Switzerland", "France", "Denmark", "Norway", "Spain", "Finland", "Ukraine"],
+  Pacific: ["Australia", "New Zealand"],
+  Americas: ["United States", "Canada"]
+}
+let arrayUsers = []
 
 function makeUsers() {
   const users = randomUserMock;
@@ -52,8 +59,10 @@ function makeUsers() {
     }
   });
 
+  arrayUsers = [...newUsers];
   return newUsers;
 }
+
 
 function isNeededString(str) {
   return typeof str === 'string' && str.at(0).toUpperCase() === str.at(0);
@@ -85,16 +94,40 @@ function validateObject(user) {
   return false;
 }
 
+function getRegion(country) {
+  if(regions.Asia.indexOf(country) !== -1)
+    return "Asia";
+
+  if(regions.Europe.indexOf(country) !== -1)
+    return "Europe";
+
+  if(regions.Americas.indexOf(country) !== -1)
+    return "Americas";
+
+  if(regions.Pacific.indexOf(country) !== -1)
+    return "Pacific";
+}
+
 function filtration(users, filtrationKey) {
   const resUsers = [];
+  let min, max;
 
-  const min = filtrationKey.age?.split('-')[0];
-  const max = filtrationKey.age?.split('-')[1];
+  if (filtrationKey.age[filtrationKey.age.length - 1] === "+"){
+    min = 61;
+    max = 1000;
+  } else {
+    min = filtrationKey.age?.split('-')[0];
+    max = filtrationKey.age?.split('-')[1];
+  }
 
   users.forEach((user) => {
-    if ((user.country === filtrationKey.country || filtrationKey.country === undefined)
+    const isPhoto = user.picture_large !== null;
+    console.log(isPhoto);
+    console.log(filtrationKey.photo);
+    if ((getRegion(user.country) === filtrationKey.region || filtrationKey.region === undefined)
       && ((user.age >= min && user.age <= max) || filtrationKey.age === undefined)
       && (user.gender === filtrationKey.gender || filtrationKey.gender === undefined)
+      && (isPhoto === filtrationKey.photo || filtrationKey.photo === undefined)
       && (user.favorite === filtrationKey.favorite || filtrationKey.favorite === undefined)) {
       resUsers.push(user);
     }
@@ -159,22 +192,11 @@ function countPercents(users, percentKey) {
   return (filterUsers.length / users.length) * 100;
 }
 
-// const popup = document.getElementById('popup');
-// const imageContainer = document.querySelector('.teacher-photo');
-// const closeButton = document.querySelector('.popup-close-button');
-//
-// imageContainer.addEventListener('click', () => {
-//   popup.style.display = 'flex';
-// });
-//
-// closeButton.addEventListener('click', () => {
-//   popup.style.display = 'none';
-// });
-//
+let id = 0;
 const openPopupButton = document.getElementsByClassName('add-teacher-button');
 const popupContainer = document.getElementsByClassName('popup-add-teacher');
 const closePopupButton = document.getElementsByClassName('popup-add-teacher-button');
-console.log(popupContainer);
+
 for (let i = 0; i < 2; i++) {
   openPopupButton[i].addEventListener('click', () => {
     popupContainer[i].style.display = 'flex';
@@ -184,34 +206,72 @@ for (let i = 0; i < 2; i++) {
     popupContainer[i].style.display = 'none';
   });
 
-  const addButton = popupContainer[i].querySelector(".submit-button");
+  const form = popupContainer[i].querySelector(".form");
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
 
-  addButton.addEventListener('click', () => {
+    let name = form.querySelector(".input-name").value;
+    let selectedGender = form.querySelector('input[name="gender"]:checked').value;
+    let city = form.querySelector('input[name="city"]').value;
+    let phone = form.querySelector('input[name="phone"]').value;
+    let email = form.querySelector('input[name="email"]').value;
+    let date = form.querySelector('input[name="date"]').value;
+    let color = form.querySelector('input[name="color"]').value;
+    let country = form.querySelector('.select-country-option').value;
+    let course = form.querySelector('.select-speciality-option').value;
+    let notes = form.querySelector('.textarea').value;
 
+    let userInputDate = new Date(date);
+    let currentDate = new Date();
+    let ageDifferenceInMilliseconds = currentDate - userInputDate;
+    let ageDifferenceInYears = ageDifferenceInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+    ageDifferenceInYears = Math.floor(ageDifferenceInYears);
+
+    const newUser = {
+      id: id++,
+      gender: selectedGender,
+      title: selectedGender === 'male' ? "Mr" : "Ms",
+      full_name: `${name.split(' ')[0]} ${name.split(' ')[1]}`,
+      city: city,
+      state: "State",
+      country: country,
+      course: course,
+      favorite: false,
+      postcode: null,
+      coordinates: null,
+      timezone: null,
+      email: email,
+      b_date: date,
+      age: ageDifferenceInYears,
+      bg_color: color,
+      phone: phone,
+      picture_large: null,
+      picture_thumbnail: null,
+      note: notes === '' ? null : notes,
+    };
+
+    arrayUsers.push(newUser);
+
+    addUser(newUser);
+    addData();
   });
 }
-// openPopupButton[0].addEventListener('click', () => {
-//   popupContainer[0].style.display = 'flex';
-// });
-//
 
-
-function addData() {
-  const users = makeUsers();
-  const teachersBlock = document.querySelector(".teachers-div");
-  users.forEach(user => {
-    if(validateObject(user)){
-      teachersBlock.innerHTML += `
+let popupID = 0
+const teachersBlock = document.querySelector(".teachers-div");
+function addUser(user) {
+  if(validateObject(user)){
+    teachersBlock.innerHTML += `
     <div class="teacher-card">
          <div class="teacher-photo-div">
             <div class="teacher-photo-scale">
-               <img src="${user.picture_large}" alt="No data" class="teacher-photo">
+               <img src="${user.picture_large}" alt="No data" class="teacher-photo" onclick="togglePopupVisibility(this.parentNode.parentNode.querySelector('.popup'))">
             </div>
-            <div class="popup" id="popup">
+            <div class="popup" id="popup${popupID}">
                <div class="popup-content">
                   <header class="popup-header">
                      <h2 class="popup-header-text">Teacher info</h2>
-                     <button class="popup-close-button">x</button>
+                     <button class="popup-close-button" onclick="closePopup(this.parentNode.parentNode.parentNode)">x</button>
                   </header>
                   <main class="popup-main">
                      <img src="${user.picture_large}" alt="No data" class="popup-teacher-photo">
@@ -240,22 +300,70 @@ function addData() {
          </div>
       </div>
     `;
-    }
+
+    const popup = document.getElementById("popup" + popupID);
+    popupID++;
+    popupAddFunc(popup);
+  }
+}
+
+const ageSelect = document.getElementById('age');
+const regionSelect = document.getElementById('region');
+const sexSelect = document.getElementById('sex');
+
+ageSelect.addEventListener('change', function() {
+  addData()
+});
+
+regionSelect.addEventListener('change', function() {
+  addData()
+});
+
+sexSelect.addEventListener('change', function() {
+  addData()
+});
+
+const onlyWithPhotoCheckbox = document.querySelector('input[name="only-with-photo"]');
+const onlyFavoritesCheckbox = document.querySelector('input[name="only-favorites"]');
+
+onlyWithPhotoCheckbox.addEventListener('change', function() {
+  addData()
+});
+
+onlyFavoritesCheckbox.addEventListener('change', function() {
+  addData()
+});
+
+
+function addData() {
+
+  const filtrationKey = {age:ageSelect.value, gender: sexSelect.value.toLowerCase(), favorite: onlyFavoritesCheckbox.checked, region: regionSelect.value, photo: onlyWithPhotoCheckbox.checked}
+  // console.log(filtrationKey);
+
+  const users = filtration(arrayUsers, filtrationKey);
+
+  teachersBlock.innerHTML = "";
+  popupID = 0;
+
+  users.forEach(user => {
+    addUser(user);
   });
 }
 
+makeUsers()
 addData();
 
-const popup = document.getElementsByClassName("popup");
-
-Array.prototype.forEach.call(popup, function(p) {
+function popupAddFunc(p){
   const photo = p.parentNode.querySelector(".teacher-photo");
   const closeButton = p.querySelector('.popup-close-button');
+
+  console.log(p);
+
   photo.addEventListener('click', () => {
     p.style.display = 'flex';
   });
 
   closeButton.addEventListener('click', () => {
     p.style.display = 'none';
-  })
-});
+  });
+}

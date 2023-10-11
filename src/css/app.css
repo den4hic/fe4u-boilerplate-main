@@ -432,7 +432,7 @@ th:nth-child(5), td:nth-child(5) {
     display: flex;
     flex-direction: column;
 }
-.select-speciality-select {
+.select-speciality-option {
     height: 35px;
     margin-top: 5px;
     padding-left: 5px;
@@ -459,7 +459,7 @@ th:nth-child(5), td:nth-child(5) {
     display: flex;
     flex-direction: column;
 }
-.select-country-select {
+.select-country-option {
     /*margin-top: 5px;*/
     height: 42px;
     width: 100%;
@@ -511,11 +511,11 @@ th:nth-child(5), td:nth-child(5) {
         padding-left: 10px;
         margin-bottom: 15px;
     }
-    .select-country-select {
+    .select-country-option {
         height: 31px;
         margin-top: 3px;
     }
-    .select-speciality-select {
+    .select-speciality-option {
         height: 31px;
         margin-bottom: 15px;
     }
@@ -559,10 +559,10 @@ th:nth-child(5), td:nth-child(5) {
         height: 15px;
         margin-bottom: 10px;
     }
-    .select-country-select {
+    .select-country-option {
         height: 21px;
     }
-    .select-speciality-select {
+    .select-speciality-option {
         height: 25px;
         margin-bottom: 10px;
     }
@@ -623,7 +623,7 @@ th:nth-child(5), td:nth-child(5) {
         height: 15px;
         margin-bottom: 10px;
     }
-    .select-speciality-select {
+    .select-speciality-option {
         height: 25px;
         margin-bottom: 10px;
     }
@@ -681,7 +681,7 @@ th:nth-child(5), td:nth-child(5) {
     .popup-content-add-teacher {
         max-width: 80%;
     }
-    #name.input-name, .select-speciality-select {
+    #name.input-name, .select-speciality-option {
         margin-bottom: 4px;
     }
     .many-label {
