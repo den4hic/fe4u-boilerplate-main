@@ -255,7 +255,7 @@ for (let i = 0; i < 2; i++) {
       phone: phone,
       picture_large: null,
       picture_thumbnail: null,
-      note: notes === '' ? null : notes,
+      note: notes === '' ? "My notes" : notes,
     };
 
     arrayUsers.push(newUser);
