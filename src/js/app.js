@@ -259,6 +259,8 @@ for (let i = 0; i < 2; i++) {
     };
 
     arrayUsers.push(newUser);
+    sortArray.push(newUser);
+    makeTable();
 
     addUser(newUser);
     addData();
@@ -393,13 +395,15 @@ function popupAddFunc(p){
 let sortArray = []
 
 function makeTable() {
+  sortArray = []
   arrayUsers.forEach(user => {
     if(validateObject(user)){
       sortArray.push(user)
     }
   });
+  const table = document.querySelector('tbody');
+  table.innerHTML = ``;
   for(let i = 0; i < 10; i++){
-    const table = document.querySelector('tbody');
 
     table.innerHTML += `
     <tr>
@@ -438,12 +442,31 @@ function makeTable() {
   }
 
   const extensionButton = document.querySelector('.extension-button');
+  const buttonsNew = document.querySelectorAll('.statistic-buttons button');
+  const buttons = [...buttonsNew]
 
   extensionButton.addEventListener('click', function (){
-    // make something????
-  });
+    for (let i = pagesAmount - 1; i >= 4; i--) {
+      const newButton = document.createElement('button');
+      newButton.textContent = i;
+      buttons.push(newButton);
 
-  const buttons = document.querySelectorAll('.statistic-buttons button');
+      newButton.addEventListener('click', () => {
+        if(newButton.textContent !== "..."){
+          newButton.addEventListener('click', function() {
+            buttons.forEach(function(btn) {
+              btn.classList.remove('active-button');
+            });
+
+            newButton.classList.add('active-button');
+            remakeTable(newButton.textContent);
+          });
+        }
+      });
+      extensionButton.insertAdjacentElement('afterend', newButton);
+    }
+    extensionButton.style.display = 'none';
+  });
 
   buttons.forEach(function(button) {
     if(button.textContent !== "..."){
@@ -554,7 +577,6 @@ searchButton.addEventListener('click', function (){
 
 function addFav() {
   const fav = filtration(arrayUsers, {favorite: true});
-  console.log(fav);
   const favMain = document.querySelector('.favorites-main');
 
   favMain.innerHTML = ``;
