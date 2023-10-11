@@ -113,7 +113,7 @@ function getRegion(country) {
 function filtration(users, filtrationKey) {
   const resUsers = [];
   let min, max;
-
+  filtrationKey.age = filtrationKey.age === undefined ? "0-100" : filtrationKey.age;
   if (filtrationKey.age[filtrationKey.age.length - 1] === "+"){
     min = 61;
     max = 1000;
@@ -368,6 +368,7 @@ function addData() {
     stars[i].addEventListener('click', () => {
       user.favorite = !user.favorite;
       addData();
+      addFav();
     });
     i++;
   });
@@ -476,7 +477,6 @@ function remakeTable(currentPage) {
 
 const sortColumnAsc = document.querySelectorAll('.th-sort');
 const sortColumnDes = document.querySelectorAll('.th-sort-asc');
-const sortColumn    = document.querySelectorAll('.th-sort-des');
 
 sortColumnAsc.forEach(function (column) {
   recStat(column)
@@ -508,14 +508,14 @@ const searchButton = document.querySelector('.search-button');
 
 searchButton.addEventListener('click', function (){
   const searchArea = document.querySelector('.search');
-
+  const photo = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
   const user = search(arrayUsers, searchArea.value);
 
   teachersBlock.innerHTML = `
     <div class="teacher-card">
          <div class="teacher-photo-div">
             <div class="teacher-photo-scale">
-               <img src="${user.picture_large}" alt="No data" class="teacher-photo" onclick="togglePopupVisibility(this.parentNode.parentNode.querySelector('.popup'))">
+               <img src="${photo}" alt="No data" class="teacher-photo" onclick="togglePopupVisibility(this.parentNode.parentNode.querySelector('.popup'))">
             </div>
             <div class="popup" id="popup${popupID}">
                <div class="popup-content">
@@ -524,7 +524,7 @@ searchButton.addEventListener('click', function (){
                      <button class="popup-close-button" onclick="closePopup(this.parentNode.parentNode.parentNode)">x</button>
                   </header>
                   <main class="popup-main">
-                     <img src="${user.picture_large}" alt="No data" class="popup-teacher-photo">
+                     <img src="${photo}" alt="No data" class="popup-teacher-photo">
                      <div class="popup-info">
                         <p class="popup-name">${user.full_name}</p>
                         <p class="popup-subject"><b>${user.course}</b></p>
@@ -552,6 +552,33 @@ searchButton.addEventListener('click', function (){
     `;
 });
 
+function addFav() {
+  const fav = filtration(arrayUsers, {favorite: true});
+  console.log(fav);
+  const favMain = document.querySelector('.favorites-main');
 
+  favMain.innerHTML = ``;
+  for (let i = 0; i < 5; i++){
+    const user = fav[i];
+    const photo = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
+    favMain.innerHTML += `
+    <div class="teacher-card">
+      <div class="teacher-photo-div">
+        <div class="teacher-photo-scale">
+          <img src="${photo}" alt="No data" class="teacher-photo">
+        </div>
+      </div>
+      <div class="teacher-info">
+            <p class="name"><b>${user.full_name.split(' ')[0]}</b></p>
+            <p class="surname"><b>${user.full_name.split(' ')[1]}</b></p>
+            <p class="subject">${user.course}</p>
+            <p class="country">${user.country}</p>
+         </div>
+    </div>
+    `;
+
+  }
+}
 
 makeTable();
+addFav();
