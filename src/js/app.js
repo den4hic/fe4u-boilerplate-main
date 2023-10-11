@@ -14,12 +14,14 @@ const courses = [
   'Medicine',
   'Statistics',
 ];
+
 const regions = {
   Asia: ["Iran", "Turkey"],
   Europe: ["Germany", "Ireland", "Netherlands", "Switzerland", "France", "Denmark", "Norway", "Spain", "Finland", "Ukraine"],
   Pacific: ["Australia", "New Zealand"],
   Americas: ["United States", "Canada"]
-}
+};
+
 let arrayUsers = []
 
 function makeUsers() {
@@ -122,8 +124,7 @@ function filtration(users, filtrationKey) {
 
   users.forEach((user) => {
     const isPhoto = user.picture_large !== null;
-    console.log(isPhoto);
-    console.log(filtrationKey.photo);
+
     if ((getRegion(user.country) === filtrationKey.region || filtrationKey.region === undefined)
       && ((user.age >= min && user.age <= max) || filtrationKey.age === undefined)
       && (user.gender === filtrationKey.gender || filtrationKey.gender === undefined)
@@ -151,32 +152,39 @@ function search(users, searchKey) {
 function sort(users, key, flag) {
   const sortUsers = [...users];
   switch (key) {
-    case 'full_name':
+    case 'Name':
       if (flag) {
         sortUsers.sort((a, b) => a.full_name.localeCompare(b.full_name));
       } else {
         sortUsers.sort((a, b) => b.full_name.localeCompare(a.full_name));
       }
       break;
-    case 'age':
+    case 'Age':
       if (flag) {
         sortUsers.sort((a, b) => a.age - b.age);
       } else {
         sortUsers.sort((a, b) => b.age - a.age);
       }
       break;
-    case 'b_day':
+    case 'Gender':
       if (flag) {
-        sortUsers.sort((a, b) => a.localeCompare(b));
+        sortUsers.sort((a, b) => a.gender.localeCompare(b.gender));
       } else {
-        sortUsers.sort((a, b) => b.localeCompare(a));
+        sortUsers.sort((a, b) => b.gender.localeCompare(a.gender));
       }
       break;
-    case 'country':
+    case 'Nationality':
       if (flag) {
-        sortUsers.sort((a, b) => a.localeCompare(b));
+        sortUsers.sort((a, b) => a.country.localeCompare(b.country));
       } else {
-        sortUsers.sort((a, b) => b.localeCompare(a));
+        sortUsers.sort((a, b) => b.country.localeCompare(a.country));
+      }
+      break;
+    case 'Speciality':
+      if (flag) {
+        sortUsers.sort((a, b) => a.course.localeCompare(b.course));
+      } else {
+        sortUsers.sort((a, b) => b.course.localeCompare(a.course));
       }
       break;
     default:
@@ -261,7 +269,249 @@ let popupID = 0
 const teachersBlock = document.querySelector(".teachers-div");
 function addUser(user) {
   if(validateObject(user)){
+    const photo = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
     teachersBlock.innerHTML += `
+    <div class="teacher-card">
+         <div class="teacher-photo-div">
+            <div class="teacher-photo-scale">
+               <img src="${photo}" alt="No data" class="teacher-photo" onclick="togglePopupVisibility(this.parentNode.parentNode.querySelector('.popup'))">
+            </div>
+            <div class="popup" id="popup${popupID}">
+               <div class="popup-content">
+                  <header class="popup-header">
+                     <h2 class="popup-header-text">Teacher info</h2>
+                     <button class="popup-close-button" onclick="closePopup(this.parentNode.parentNode.parentNode)">x</button>
+                  </header>
+                  <main class="popup-main">
+                     <img src="${photo}" alt="No data" class="popup-teacher-photo">
+                     <div class="popup-info">
+                        <p class="popup-name">${user.full_name}</p>
+                        <p class="popup-subject"><b>${user.course}</b></p>
+                        <p class="popup-country">${user.city}, ${user.country}</p>
+                        <p class="popup-sex">${user.age}, ${user.gender}</p>
+                        <p class="popup-email">${user.email}</p>
+                        <p class="popup-number">${user.phone}</p>
+                     </div>
+                  </main>
+                  <footer class="popup-footer">
+                     <p class="popup-footer-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                     </p>
+                     <p class="popup-map-text">toggle map</p>
+                  </footer>
+               </div>
+            </div>
+         </div>
+         <div class="teacher-info">
+            <p class="name"><b>${user.full_name.split(' ')[0]}</b></p>
+            <p class="surname"><b>${user.full_name.split(' ')[1]}</b></p>
+            <p class="subject">${user.course}</p>
+            <p class="country">${user.country}</p>
+         </div>
+      </div>
+    `;
+
+    const starIcon = document.createElement('img');
+    starIcon.src = user.favorite ? '/src/images/star2.png' : '/src/images/star1.png';
+    starIcon.className = 'star-fav';
+
+    const popup = document.getElementById("popup" + popupID);
+    popupID++;
+
+    popup.querySelector('.popup-main').appendChild(starIcon);
+    popupAddFunc(popup);
+  }
+}
+
+const ageSelect = document.getElementById('age');
+const regionSelect = document.getElementById('region');
+const sexSelect = document.getElementById('sex');
+
+ageSelect.addEventListener('change', function() {
+  addData()
+});
+
+regionSelect.addEventListener('change', function() {
+  addData()
+});
+
+sexSelect.addEventListener('change', function() {
+  addData()
+});
+
+const onlyWithPhotoCheckbox = document.querySelector('input[name="only-with-photo"]');
+const onlyFavoritesCheckbox = document.querySelector('input[name="only-favorites"]');
+
+onlyWithPhotoCheckbox.addEventListener('change', function() {
+  addData()
+});
+
+onlyFavoritesCheckbox.addEventListener('change', function() {
+  addData()
+});
+
+
+function addData() {
+
+  const filtrationKey = {age:ageSelect.value, gender: sexSelect.value.toLowerCase(), favorite: onlyFavoritesCheckbox.checked, region: regionSelect.value, photo: onlyWithPhotoCheckbox.checked}
+
+  const users = filtration(arrayUsers, filtrationKey);
+
+  teachersBlock.innerHTML = "";
+  popupID = 0;
+
+  users.forEach(user => {
+    addUser(user);
+  });
+  const stars = document.querySelectorAll('.star-fav');
+  var i = 0;
+  users.forEach(user => {
+    stars[i].addEventListener('click', () => {
+      user.favorite = !user.favorite;
+      addData();
+    });
+    i++;
+  });
+}
+
+makeUsers()
+addData();
+
+function popupAddFunc(p){
+  const photo = p.parentNode.querySelector(".teacher-photo");
+  const closeButton = p.querySelector('.popup-close-button');
+
+  photo.addEventListener('click', () => {
+    p.style.display = 'flex';
+  });
+
+  closeButton.addEventListener('click', () => {
+    p.style.display = 'none';
+  });
+}
+
+let sortArray = []
+
+function makeTable() {
+  arrayUsers.forEach(user => {
+    if(validateObject(user)){
+      sortArray.push(user)
+    }
+  });
+  for(let i = 0; i < 10; i++){
+    const table = document.querySelector('tbody');
+
+    table.innerHTML += `
+    <tr>
+  <td class="td-name">${sortArray[i].full_name}</td>
+  <td>${sortArray[i].course}</td>
+  <td>${sortArray[i].age}</td>
+  <td>${sortArray[i].gender[0].toUpperCase() + sortArray[i].gender.slice(1)}</td>
+  <td>${sortArray[i].country}</td>
+</tr>
+    `;
+  }
+
+  const pagesAmount = Math.ceil(sortArray.length / 10);
+  const statButtonsDiv = document.querySelector('.statistic-buttons');
+  if(pagesAmount < 3) {
+    for (let i = 0; i < pagesAmount; i++){
+      statButtonsDiv.innerHTML += `
+         <button>${i+1}</button>
+    `;
+    }
+  } else if(pagesAmount === 4) {
+    statButtonsDiv.innerHTML = `
+         <button class="active-button">1</button>
+         <button>2</button>
+         <button>3</button>
+         <button>4</button>
+    `;
+  } else {
+    statButtonsDiv.innerHTML = `
+         <button class="active-button">1</button>
+         <button>2</button>
+         <button>3</button>
+         <button class="extension-button">...</button>
+         <button>${pagesAmount}</button>
+    `;
+  }
+
+  const extensionButton = document.querySelector('.extension-button');
+
+  extensionButton.addEventListener('click', function (){
+    // make something????
+  });
+
+  const buttons = document.querySelectorAll('.statistic-buttons button');
+
+  buttons.forEach(function(button) {
+    if(button.textContent !== "..."){
+      button.addEventListener('click', function() {
+        buttons.forEach(function(btn) {
+          btn.classList.remove('active-button');
+        });
+
+        button.classList.add('active-button');
+        remakeTable(button.textContent);
+      });
+    }
+  });
+}
+
+function remakeTable(currentPage) {
+  const table = document.querySelector('tbody');
+  table.innerHTML = ``;
+  for (let i = (currentPage - 1) * 10; i < currentPage * 10; i++) {
+    table.innerHTML += `
+    <tr>
+  <td class="td-name">${sortArray[i].full_name}</td>
+  <td>${sortArray[i].course}</td>
+  <td>${sortArray[i].age}</td>
+  <td>${sortArray[i].gender[0].toUpperCase() + sortArray[i].gender.slice(1)}</td>
+  <td>${sortArray[i].country}</td>
+</tr>
+    `;
+  }
+}
+
+const sortColumnAsc = document.querySelectorAll('.th-sort');
+const sortColumnDes = document.querySelectorAll('.th-sort-asc');
+const sortColumn    = document.querySelectorAll('.th-sort-des');
+
+sortColumnAsc.forEach(function (column) {
+  recStat(column)
+});
+
+function recStat(column) {
+  column.addEventListener('click', function () {
+    sortColumnAsc.forEach(function (column2) {
+      column2.className = 'th-sort';
+    });
+    column.className = 'th-sort-asc';
+    column.addEventListener('click', function (){
+      sortColumnDes.forEach(function (column2) {
+        column2.className = 'th-sort';
+      });
+      column.className = 'th-sort';
+      recStat(column)
+      sortArray = [...sort(sortArray, column.textContent, false)];
+      remakeTable(1);
+    })
+    sortArray = [...sort(sortArray, column.textContent, true)];
+    remakeTable(1);
+  })
+}
+
+
+
+const searchButton = document.querySelector('.search-button');
+
+searchButton.addEventListener('click', function (){
+  const searchArea = document.querySelector('.search');
+
+  const user = search(arrayUsers, searchArea.value);
+
+  teachersBlock.innerHTML = `
     <div class="teacher-card">
          <div class="teacher-photo-div">
             <div class="teacher-photo-scale">
@@ -300,70 +550,8 @@ function addUser(user) {
          </div>
       </div>
     `;
-
-    const popup = document.getElementById("popup" + popupID);
-    popupID++;
-    popupAddFunc(popup);
-  }
-}
-
-const ageSelect = document.getElementById('age');
-const regionSelect = document.getElementById('region');
-const sexSelect = document.getElementById('sex');
-
-ageSelect.addEventListener('change', function() {
-  addData()
-});
-
-regionSelect.addEventListener('change', function() {
-  addData()
-});
-
-sexSelect.addEventListener('change', function() {
-  addData()
-});
-
-const onlyWithPhotoCheckbox = document.querySelector('input[name="only-with-photo"]');
-const onlyFavoritesCheckbox = document.querySelector('input[name="only-favorites"]');
-
-onlyWithPhotoCheckbox.addEventListener('change', function() {
-  addData()
-});
-
-onlyFavoritesCheckbox.addEventListener('change', function() {
-  addData()
 });
 
 
-function addData() {
 
-  const filtrationKey = {age:ageSelect.value, gender: sexSelect.value.toLowerCase(), favorite: onlyFavoritesCheckbox.checked, region: regionSelect.value, photo: onlyWithPhotoCheckbox.checked}
-  // console.log(filtrationKey);
-
-  const users = filtration(arrayUsers, filtrationKey);
-
-  teachersBlock.innerHTML = "";
-  popupID = 0;
-
-  users.forEach(user => {
-    addUser(user);
-  });
-}
-
-makeUsers()
-addData();
-
-function popupAddFunc(p){
-  const photo = p.parentNode.querySelector(".teacher-photo");
-  const closeButton = p.querySelector('.popup-close-button');
-
-  console.log(p);
-
-  photo.addEventListener('click', () => {
-    p.style.display = 'flex';
-  });
-
-  closeButton.addEventListener('click', () => {
-    p.style.display = 'none';
-  });
-}
+makeTable();
