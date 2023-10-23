@@ -1,3 +1,5 @@
+// URL API RandomUser
+
 export const randomUserMock = [
   {
     gender: 'male',
@@ -1870,4 +1872,5 @@ export const additionalUsers = [
     note: 'old lady with a cats',
   },
 ];
+
 // module.exports = { randomUserMock, additionalUsers };

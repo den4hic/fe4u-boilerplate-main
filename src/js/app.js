@@ -1,4 +1,10 @@
-import { randomUserMock, additionalUsers } from './FE4U-Lab2-mock.js';
+const apiUrl = 'https://randomuser.me/api/?results=100';
+
+async function getRandomUser() {
+  const response = await fetch(apiUrl);
+  const data = await response.json();
+  return data.results;
+}
 
 const courses = [
   'Mathematics',
@@ -24,8 +30,9 @@ const regions = {
 
 let arrayUsers = []
 
-function makeUsers() {
-  const users = randomUserMock;
+async function makeUsers() {
+  const users = await getRandomUser();
+  // const users = randomUserMock;
   const newUsers = [];
 
   users.forEach((user) => {
@@ -53,12 +60,6 @@ function makeUsers() {
     };
 
     newUsers.push(newUser);
-  });
-
-  additionalUsers.forEach((user) => {
-    if (!newUsers.find((newUser) => newUser.id === user.id)) {
-      newUsers.push(user);
-    }
   });
 
   arrayUsers = [...newUsers];
@@ -365,6 +366,7 @@ function addData() {
     addUser(user);
   });
   const stars = document.querySelectorAll('.star-fav');
+
   var i = 0;
   users.forEach(user => {
     stars[i].addEventListener('click', () => {
@@ -376,13 +378,10 @@ function addData() {
   });
 }
 
-makeUsers()
-addData();
-
 function popupAddFunc(p){
+
   const photo = p.parentNode.querySelector(".teacher-photo");
   const closeButton = p.querySelector('.popup-close-button');
-
   photo.addEventListener('click', () => {
     p.style.display = 'flex';
   });
@@ -390,29 +389,32 @@ function popupAddFunc(p){
   closeButton.addEventListener('click', () => {
     p.style.display = 'none';
   });
-}
 
+}
 let sortArray = []
 
-function makeTable() {
+async function makeTable() {
+
   sortArray = []
+
   arrayUsers.forEach(user => {
+
     if(validateObject(user)){
       sortArray.push(user)
     }
   });
   const table = document.querySelector('tbody');
   table.innerHTML = ``;
-  for(let i = 0; i < 10; i++){
 
+  for(let i = 0; i < 10; i++){
     table.innerHTML += `
     <tr>
-  <td class="td-name">${sortArray[i].full_name}</td>
-  <td>${sortArray[i].course}</td>
-  <td>${sortArray[i].age}</td>
-  <td>${sortArray[i].gender[0].toUpperCase() + sortArray[i].gender.slice(1)}</td>
-  <td>${sortArray[i].country}</td>
-</tr>
+        <td class="td-name">${sortArray[i].full_name}</td>
+        <td>${sortArray[i].course}</td>
+        <td>${sortArray[i].age}</td>
+        <td>${sortArray[i].gender[0].toUpperCase() + sortArray[i].gender.slice(1)}</td>
+        <td>${sortArray[i].country}</td>
+    </tr>
     `;
   }
 
@@ -442,6 +444,7 @@ function makeTable() {
   }
 
   const extensionButton = document.querySelector('.extension-button');
+
   const buttonsNew = document.querySelectorAll('.statistic-buttons button');
   const buttons = [...buttonsNew]
 
@@ -498,8 +501,8 @@ function remakeTable(currentPage) {
   }
 }
 
-const sortColumnAsc = document.querySelectorAll('.th-sort');
-const sortColumnDes = document.querySelectorAll('.th-sort-asc');
+const sortColumnAsc = document.querySelectorAll('th');
+//const sortColumnDes = document.querySelectorAll('.th-sort-asc');
 
 sortColumnAsc.forEach(function (column) {
   recStat(column)
@@ -507,21 +510,22 @@ sortColumnAsc.forEach(function (column) {
 
 function recStat(column) {
   column.addEventListener('click', function () {
-    sortColumnAsc.forEach(function (column2) {
-      column2.className = 'th-sort';
-    });
-    column.className = 'th-sort-asc';
-    column.addEventListener('click', function (){
-      sortColumnDes.forEach(function (column2) {
+    if(column.className === 'th-sort'){
+      sortColumnAsc.forEach(function (column2) {
+        column2.className = 'th-sort';
+      });
+      column.className = 'th-sort-asc';
+      sortArray = [...sort(sortArray, column.textContent, true)];
+      remakeTable(1);
+    } else {
+      sortColumnAsc.forEach(function (column2) {
         column2.className = 'th-sort';
       });
       column.className = 'th-sort';
       recStat(column)
       sortArray = [...sort(sortArray, column.textContent, false)];
       remakeTable(1);
-    })
-    sortArray = [...sort(sortArray, column.textContent, true)];
-    remakeTable(1);
+    }
   })
 }
 
@@ -531,8 +535,8 @@ const searchButton = document.querySelector('.search-button');
 
 searchButton.addEventListener('click', function (){
   const searchArea = document.querySelector('.search');
-  const photo = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
   const user = search(arrayUsers, searchArea.value);
+  const photo = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
 
   teachersBlock.innerHTML = `
     <div class="teacher-card">
@@ -602,5 +606,18 @@ function addFav() {
   }
 }
 
-makeTable();
-addFav();
+async function main() {
+  await getRandomUser(); // Отримати випадкових користувачів
+  await makeUsers(); // Створити користувачів на основі отриманих даних
+  addData(); // Додати дані на сторінку
+  await makeTable(); // Створити таблицю на основі користувачів
+  addFav(); // Додати улюблених користувачів на сторінку
+}
+document.addEventListener('DOMContentLoaded', () => {
+  main();
+});
+// getRandomUser();
+// makeUsers()
+// addData();
+// makeTable();
+// addFav();
