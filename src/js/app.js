@@ -1,4 +1,4 @@
-const apiUrl = 'https://randomuser.me/api/?results=100';
+const apiUrl = 'https://randomuser.me/api/?results=50';
 
 async function getRandomUser() {
   const response = await fetch(apiUrl);
@@ -63,6 +63,7 @@ async function makeUsers() {
   });
 
   arrayUsers = [...newUsers];
+
   return newUsers;
 }
 
@@ -216,7 +217,7 @@ for (let i = 0; i < 2; i++) {
   });
 
   const form = popupContainer[i].querySelector(".form");
-  form.addEventListener("submit", function(event) {
+  form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
     let name = form.querySelector(".input-name").value;
@@ -258,6 +259,20 @@ for (let i = 0; i < 2; i++) {
       picture_thumbnail: null,
       note: notes === '' ? "My notes" : notes,
     };
+
+    try {
+      const response = await fetch('http://localhost:3000/teachers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
 
     arrayUsers.push(newUser);
     sortArray.push(newUser);
@@ -420,8 +435,9 @@ async function makeTable() {
 
   const pagesAmount = Math.ceil(sortArray.length / 10);
   const statButtonsDiv = document.querySelector('.statistic-buttons');
-  if(pagesAmount < 3) {
-    for (let i = 0; i < pagesAmount; i++){
+  if(pagesAmount <= 3) {
+    statButtonsDiv.innerHTML += `<button class="active-button">1</button>`;
+    for (let i = 1; i < pagesAmount; i++){
       statButtonsDiv.innerHTML += `
          <button>${i+1}</button>
     `;
@@ -441,35 +457,34 @@ async function makeTable() {
          <button class="extension-button">...</button>
          <button>${pagesAmount}</button>
     `;
-  }
+    const extensionButton = document.querySelector('.extension-button');
 
-  const extensionButton = document.querySelector('.extension-button');
+    extensionButton.addEventListener('click', function (){
+      for (let i = pagesAmount - 1; i >= 4; i--) {
+        const newButton = document.createElement('button');
+        newButton.textContent = i;
+        buttons.push(newButton);
+
+        newButton.addEventListener('click', () => {
+          if(newButton.textContent !== "..."){
+            newButton.addEventListener('click', function() {
+              buttons.forEach(function(btn) {
+                btn.classList.remove('active-button');
+              });
+
+              newButton.classList.add('active-button');
+              remakeTable(newButton.textContent);
+            });
+          }
+        });
+        extensionButton.insertAdjacentElement('afterend', newButton);
+      }
+      extensionButton.style.display = 'none';
+    });
+  }
 
   const buttonsNew = document.querySelectorAll('.statistic-buttons button');
   const buttons = [...buttonsNew]
-
-  extensionButton.addEventListener('click', function (){
-    for (let i = pagesAmount - 1; i >= 4; i--) {
-      const newButton = document.createElement('button');
-      newButton.textContent = i;
-      buttons.push(newButton);
-
-      newButton.addEventListener('click', () => {
-        if(newButton.textContent !== "..."){
-          newButton.addEventListener('click', function() {
-            buttons.forEach(function(btn) {
-              btn.classList.remove('active-button');
-            });
-
-            newButton.classList.add('active-button');
-            remakeTable(newButton.textContent);
-          });
-        }
-      });
-      extensionButton.insertAdjacentElement('afterend', newButton);
-    }
-    extensionButton.style.display = 'none';
-  });
 
   buttons.forEach(function(button) {
     if(button.textContent !== "..."){
