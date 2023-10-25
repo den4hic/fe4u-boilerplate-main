@@ -32,7 +32,6 @@ let arrayUsers = []
 
 async function makeUsers() {
   const users = await getRandomUser();
-  // const users = randomUserMock;
   const newUsers = [];
 
   users.forEach((user) => {
@@ -517,7 +516,6 @@ function remakeTable(currentPage) {
 }
 
 const sortColumnAsc = document.querySelectorAll('th');
-//const sortColumnDes = document.querySelectorAll('.th-sort-asc');
 
 sortColumnAsc.forEach(function (column) {
   recStat(column)
@@ -622,17 +620,12 @@ function addFav() {
 }
 
 async function main() {
-  await getRandomUser(); // Отримати випадкових користувачів
-  await makeUsers(); // Створити користувачів на основі отриманих даних
-  addData(); // Додати дані на сторінку
-  await makeTable(); // Створити таблицю на основі користувачів
-  addFav(); // Додати улюблених користувачів на сторінку
+  await getRandomUser();
+  await makeUsers();
+  addData();
+  await makeTable();
+  addFav();
 }
 document.addEventListener('DOMContentLoaded', () => {
   main();
 });
-// getRandomUser();
-// makeUsers()
-// addData();
-// makeTable();
-// addFav();
