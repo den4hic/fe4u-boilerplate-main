@@ -348,6 +348,9 @@ th:nth-child(5), td:nth-child(5) {
     margin-top: 45px;
 }
 /* Спочатку приховуємо popup */
+/*.popup-add-teacher {*/
+/*    display: none;*/
+/*}*/
 .popup, .popup-add-teacher {
     display: none;
     position: fixed;

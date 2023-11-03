@@ -1,26 +1,5 @@
 {
   "teachers": [
-    {
-      "id": 1,
-      "gender": "male",
-      "title": "Mr",
-      "full_name": "Денис Давидов",
-      "city": "Вінниця",
-      "state": "State",
-      "country": "Ukraine",
-      "course": "Mathematics",
-      "favorite": false,
-      "postcode": null,
-      "coordinates": null,
-      "timezone": null,
-      "email": "gusardavydov2004@gmail.com",
-      "b_date": "1999-03-12",
-      "age": 24,
-      "bg_color": "#000000",
-      "phone": "0681565221",
-      "picture_large": null,
-      "picture_thumbnail": null,
-      "note": "Monead"
-    }
+
   ]
 }

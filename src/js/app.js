@@ -137,52 +137,6 @@ function search(users, searchKey) {
   }
 
   return _.find(arrayUsers, { full_name: name, note: note, age: Number(age)})
-  //return users.find((user) => ((user.full_name === name || name === undefined) && (user.note === note || note === undefined) && (user.age === Number(age) || age === undefined)));
-}
-
-function sort(users, key, flag) {
-  const sortUsers = [...users];
-  switch (key) {
-    case 'Name':
-      if (flag) {
-        sortUsers.sort((a, b) => a.full_name.localeCompare(b.full_name));
-      } else {
-        sortUsers.sort((a, b) => b.full_name.localeCompare(a.full_name));
-      }
-      break;
-    case 'Age':
-      if (flag) {
-        sortUsers.sort((a, b) => a.age - b.age);
-      } else {
-        sortUsers.sort((a, b) => b.age - a.age);
-      }
-      break;
-    case 'Gender':
-      if (flag) {
-        sortUsers.sort((a, b) => a.gender.localeCompare(b.gender));
-      } else {
-        sortUsers.sort((a, b) => b.gender.localeCompare(a.gender));
-      }
-      break;
-    case 'Nationality':
-      if (flag) {
-        sortUsers.sort((a, b) => a.country.localeCompare(b.country));
-      } else {
-        sortUsers.sort((a, b) => b.country.localeCompare(a.country));
-      }
-      break;
-    case 'Speciality':
-      if (flag) {
-        sortUsers.sort((a, b) => a.course.localeCompare(b.course));
-      } else {
-        sortUsers.sort((a, b) => b.course.localeCompare(a.course));
-      }
-      break;
-    default:
-      console.log('Wrong sort key');
-  }
-
-  return sortUsers;
 }
 
 let id = 0;
@@ -268,47 +222,18 @@ for (let i = 0; i < 2; i++) {
 
 let popupID = 0
 const teachersBlock = document.querySelector(".teachers-div");
+
 function addUser(user) {
   if(validateObject(user)){
-    const photo = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
-
-    const userBirthday = dayjs(user.b_date).set('year', dayjs().year());
-    let dayToBirthday = userBirthday.diff(dayjs(), 'day');
-
-    if (dayToBirthday < 0) {
-      dayToBirthday = 365 + dayToBirthday;
-    }
-
+    const image = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
     teachersBlock.innerHTML += `
     <div class="teacher-card">
          <div class="teacher-photo-div">
             <div class="teacher-photo-scale">
-               <img src="${photo}" alt="No data" class="teacher-photo" onclick="togglePopupVisibility(this.parentNode.parentNode.querySelector('.popup'))">
+               <img src="${image}" alt="No data" class="teacher-photo">
             </div>
-            <div class="popup" id="popup${popupID}">
-               <div class="popup-content">
-                  <header class="popup-header">
-                     <h2 class="popup-header-text">Teacher info</h2>
-                     <button class="popup-close-button" onclick="closePopup(this.parentNode.parentNode.parentNode)">x</button>
-                  </header>
-                  <main class="popup-main">
-                     <img src="${photo}" alt="No data" class="popup-teacher-photo">
-                     <div class="popup-info">
-                        <p class="popup-name">${user.full_name}</p>
-                        <p class="popup-subject"><b>${user.course}</b></p>
-                        <p class="popup-country">${user.city}, ${user.country}</p>
-                        <p class="popup-sex">${user.age}, ${user.gender}</p>
-                        <p class="popup-email">${user.email}</p>
-                        <p class="popup-number">${user.phone}</p>
-                     </div>
-                  </main>
-                  <footer class="popup-footer">
-                     <p class="popup-footer-text">${user.note}
-                     </p>
-                     <p>Days until the birthday: ${dayToBirthday}</p>
-                     <div style="height: 200px" id="map${popupID}"></div>
-                  </footer>
-               </div>
+            <div class="popup">
+               
             </div>
          </div>
          <div class="teacher-info">
@@ -319,22 +244,7 @@ function addUser(user) {
          </div>
       </div>
     `;
-    var map = L.map('map' + popupID).setView([user.coordinates.latitude, user.coordinates.longitude], 13);
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    }).addTo(map);
-
-    L.marker([user.coordinates.latitude, user.coordinates.longitude]).addTo(map);
-
-    const starIcon = document.createElement('img');
-    starIcon.src = user.favorite ? '/src/images/star2.png' : '/src/images/star1.png';
-    starIcon.className = 'star-fav';
-
-    const popup = document.getElementById("popup" + popupID);
-    popupID++;
-
-    popup.querySelector('.popup-main').appendChild(starIcon);
-    popupAddFunc(popup, popupID);
   }
 }
 
@@ -377,32 +287,74 @@ function addData() {
   users.forEach(user => {
     addUser(user);
   });
-  const stars = document.querySelectorAll('.star-fav');
 
   let i = 0;
-  users.forEach(user => {
-      stars[i].addEventListener('click', () => {
+
+  const teacherPhotoDiv = document.querySelectorAll('.popup');
+  teacherPhotoDiv.forEach(popup => {
+    const user = users[i];
+    i++;
+    let image = popup.parentNode.querySelector('.teacher-photo');
+    image.addEventListener('click', () => {
+      const userBirthday = dayjs(user.b_date).set('year', dayjs().year());
+      let dayToBirthday = userBirthday.diff(dayjs(), 'day');
+      if (dayToBirthday < 0) {
+        dayToBirthday = 365 + dayToBirthday;
+      }
+      const img = user.picture_large !== null ? user.picture_large : "images/photo1.jpg";
+
+      popup.innerHTML = `
+              <div class="popup-content">
+                <header class="popup-header">
+                   <h2 class="popup-header-text">Teacher info</h2>
+                   <button class="popup-close-button" onclick="closePopup(this.parentNode.parentNode.parentNode)">x</button>
+                </header>
+                <main class="popup-main">
+                   <img src="${img}" alt="No data" class="popup-teacher-photo">
+                   <div class="popup-info">
+                      <p class="popup-name">${user.full_name}</p>
+                      <p class="popup-subject"><b>${user.course}</b></p>
+                      <p class="popup-country">${user.city}, ${user.country}</p>
+                      <p class="popup-sex">${user.age}, ${user.gender}</p>
+                      <p class="popup-email">${user.email}</p>
+                      <p class="popup-number">${user.phone}</p>
+                   </div>
+                </main>
+                <footer class="popup-footer">
+                   <p class="popup-footer-text">${user.note}
+                   </p>
+                   <p>Days until the birthday: ${dayToBirthday}</p>
+                   <div style="height: 200px" id="map"></div>
+                </footer>
+             </div>`;
+
+      const starIcon = document.createElement('img');
+      starIcon.src = user.favorite ? '/src/images/star2.png' : '/src/images/star1.png';
+      starIcon.className = 'star-fav';
+
+      var map = L.map('map').setView([user.coordinates.latitude, user.coordinates.longitude], 13);
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      }).addTo(map);
+
+      L.marker([user.coordinates.latitude, user.coordinates.longitude]).addTo(map);
+
+      starIcon.addEventListener('click', () => {
         user.favorite = !user.favorite;
         addData();
         addFav();
+      })
+
+      popup.querySelector('.popup-main').appendChild(starIcon);
+      const closeButton = popup.querySelector('.popup-close-button');
+      closeButton.addEventListener('click', () => {
+        popup.style.display = 'none';
       });
-      i++;
+      popup.style.display = 'flex';
+    });
   });
 }
 
-function popupAddFunc(p){
-
-  const photo = p.parentNode.querySelector(".teacher-photo");
-  const closeButton = p.querySelector('.popup-close-button');
-  photo.addEventListener('click', () => {
-    p.style.display = 'flex';
-  });
-
-  closeButton.addEventListener('click', () => {
-    p.style.display = 'none';
-  });
-
-}
 let sortArray = []
 let currentPieChart = null;
 
@@ -498,31 +450,10 @@ searchButton.addEventListener('click', function (){
     <div class="teacher-card">
          <div class="teacher-photo-div">
             <div class="teacher-photo-scale">
-               <img src="${photo}" alt="No data" class="teacher-photo" onclick="togglePopupVisibility(this.parentNode.parentNode.querySelector('.popup'))">
+               <img src="${photo}" alt="No data" class="teacher-photo">
             </div>
-            <div class="popup" id="popup${popupID}">
-               <div class="popup-content">
-                  <header class="popup-header">
-                     <h2 class="popup-header-text">Teacher info</h2>
-                     <button class="popup-close-button" onclick="closePopup(this.parentNode.parentNode.parentNode)">x</button>
-                  </header>
-                  <main class="popup-main">
-                     <img src="${photo}" alt="No data" class="popup-teacher-photo">
-                     <div class="popup-info">
-                        <p class="popup-name">${user.full_name}</p>
-                        <p class="popup-subject"><b>${user.course}</b></p>
-                        <p class="popup-country">${user.city}, ${user.country}</p>
-                        <p class="popup-sex">${user.age}, ${user.gender}</p>
-                        <p class="popup-email">${user.email}</p>
-                        <p class="popup-number">${user.phone}</p>
-                     </div>
-                  </main>
-                  <footer class="popup-footer">
-                     <p class="popup-footer-text">${user.note}
-                     </p>
-                     <p class="popup-map-text">toggle map</p>
-                  </footer>
-               </div>
+            <div class="popup">
+               
             </div>
          </div>
          <div class="teacher-info">
